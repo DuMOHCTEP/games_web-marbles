@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  marbles:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: web-marbles-app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - ROOT_URL=http://localhost/
+    volumes:
+      - marbles_data:/app/data
+    networks:
+      - marbles_network
+    depends_on:
+      - marbles-db-init
+    healthcheck:
+      test: ["CMD", "node", "-e", "const http=require('http'); const req=http.request({hostname:'localhost',port:3000,path:'/'},res=>{process.exit(res.statusCode===200?0:1)}); req.on('error',()=>process.exit(1)); req.end();"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  marbles-db-init:
+    image: alpine:latest
+    container_name: marbles-db-init
+    command: sh -c "mkdir -p /data && touch /data/web-marbles.db3 && chmod 666 /data/web-marbles.db3"
+    volumes:
+      - marbles_data:/data
+    networks:
+      - marbles_network
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    container_name: web-marbles-nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      marbles:
+        condition: service_healthy
+    networks:
+      - marbles_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  marbles_data:
+    driver: local
+
+networks:
+  marbles_network:
+    driver: bridge

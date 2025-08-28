@@ -1,0 +1,36 @@
+# Git
+.git
+.gitignore
+
+# Node.js
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs (will be built during Docker build)
+dist/
+public/dist/
+
+# Development files
+.vscode/
+*.log
+.DS_Store
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation
+README.md
+docs/
+
+# Tests
+tests/
+*.test.js
+*.spec.js
+
+# Temporary files
+*.tmp
+*.temp
