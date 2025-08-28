@@ -18,9 +18,11 @@ public/dist/
 .DS_Store
 
 # Railway files (keep these)
-# Dockerfile - needed for Railway
+# Dockerfile - needed for Railway Docker builder
 # railway.json - needed for Railway
+# .npmrc - needed for npm configuration
 # RAILWAY_ENV_VARS.md - keep for documentation
+# RAILWAY_README.md - keep for documentation
 
 # Local development files
 docker-compose.yml

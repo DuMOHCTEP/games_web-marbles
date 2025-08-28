@@ -1,14 +1,38 @@
-# Railway-optimized Dockerfile for web-marbles
+# Railway Docker configuration for web-marbles
 FROM node:18-alpine
 
-# Install system dependencies for better-sqlite3 and curl
-RUN apk add --no-cache python3 make g++ sqlite sqlite-dev curl
+# Install all system dependencies in one layer
+RUN apk add --no-cache \
+    python3 \
+    python3-dev \
+    py3-pip \
+    make \
+    g++ \
+    gcc \
+    sqlite \
+    sqlite-dev \
+    curl \
+    pkgconfig \
+    build-base \
+    linux-headers \
+    && ln -sf python3 /usr/bin/python \
+    && ln -sf pip3 /usr/bin/pip
+
+# Set environment variables for Python and node-gyp
+ENV PYTHON=/usr/bin/python3
+ENV NPM_CONFIG_PYTHON=/usr/bin/python3
+ENV npm_config_python=/usr/bin/python3
+ENV NODE_ENV=production
+ENV npm_config_build_from_source=false
 
 # Create app directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json yarn.lock ./
+# Copy package files first for better layer caching
+COPY package*.json yarn.lock .npmrc ./
+
+# Configure npm to use Python 3
+RUN npm config set python /usr/bin/python3
 
 # Install dependencies
 RUN yarn install --frozen-lockfile --production=false
@@ -21,6 +45,9 @@ RUN yarn build
 
 # Create data directory for SQLite database
 RUN mkdir -p /app/data
+
+# Clean up build dependencies to reduce image size
+RUN apk del python3-dev py3-pip build-base gcc linux-headers
 
 # Railway provides PORT environment variable
 # Railway has built-in reverse proxy, so we don't need NGINX
