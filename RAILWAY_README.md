@@ -1,6 +1,16 @@
-# Web-Marbles - Railway Deployment
+# Web-Marbles - Railway Docker Deployment
 
-Многопользовательская веб-игра Marble Racing, оптимизированная для развертывания на Railway Services.
+Многопользовательская веб-игра Marble Racing, развернутая на Railway Services с использованием Docker.
+
+## 🐳 Docker Configuration
+
+Проект использует Docker для развертывания на Railway с полной поддержкой нативных Node.js модулей:
+
+- **better-sqlite3** - компиляция с Python и node-gyp
+- **@discordjs/uws** - uWebSockets нативная компиляция
+- **uWebSockets.js** - высокопроизводительные WebSockets
+
+Dockerfile включает все необходимые зависимости для компиляции нативных модулей в Alpine Linux среде.
 
 ## 🚀 Быстрое развертывание на Railway
 
@@ -37,9 +47,13 @@ railway deploy
 #### Вариант B: Railway Dashboard
 1. Перейдите на [Railway.app](https://railway.app)
 2. Создайте новый проект
-3. Подключите ваш GitHub репозиторий
+3. Подключите репозиторий `https://github.com/DuMOHCTEP/games_web-marbles.git`
 4. Выберите ветку `production`
-5. Railway автоматически обнаружит Dockerfile и развернет приложение
+5. Railway автоматически:
+   - Обнаружит `railway.json` с Docker builder
+   - Соберет Docker контейнер с нативными зависимостями
+   - Запустит контейнер с полным функционалом
+   - Предоставит публичный HTTPS URL
 
 ## 📋 Конфигурация
 
@@ -65,14 +79,15 @@ railway deploy
 
 ```
 /var/www/neonpsh.ru/games_portal/games/marbles/
-├── Dockerfile              # Railway-optimized Dockerfile
-├── railway.json           # Railway configuration
+├── Dockerfile              # Railway Docker configuration
+├── railway.json           # Railway configuration with Docker builder
+├── .npmrc                 # NPM configuration for Python/node-gyp
 ├── RAILWAY_ENV_VARS.md    # Environment variables documentation
 ├── RAILWAY_README.md      # This file
 ├── src/server/config.user.js  # Production configuration
 ├── package.json           # Node.js dependencies
 ├── yarn.lock             # Lock file
-└── dist/                 # Built application (created during build)
+└── dist/                 # Built application (created during Docker build)
 ```
 
 ## 🚦 Мониторинг
