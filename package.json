@@ -34,7 +34,7 @@
   "dependencies": {
     "@discordjs/uws": "10.149.0",
     "ammo.js": "kripken/ammo.js#ac08f42d3995cfa2b719aa8a9bb5b766c7f63404",
-    "better-sqlite3": "^8.7.0",
+    "better-sqlite3": "7.6.2",
     "body-parser": "^1.18.2",
     "colors": "^1.2.1",
     "compression": "^1.7.2",
