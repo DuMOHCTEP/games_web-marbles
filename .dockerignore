@@ -17,10 +17,17 @@ public/dist/
 *.log
 .DS_Store
 
-# Docker
-Dockerfile
+# Railway files (keep these)
+# Dockerfile - needed for Railway
+# railway.json - needed for Railway
+# RAILWAY_ENV_VARS.md - keep for documentation
+
+# Local development files
 docker-compose.yml
-.dockerignore
+start.sh
+stop.sh
+DOCKER_README.md
+nginx/
 
 # Documentation
 README.md
