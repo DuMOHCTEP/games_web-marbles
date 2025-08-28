@@ -20,10 +20,13 @@ RUN apk add --no-cache \
 
 # Set environment variables for Python and node-gyp
 ENV PYTHON=/usr/bin/python3
+ENV PYTHONPATH=/usr/lib/python3/dist-packages
 ENV NPM_CONFIG_PYTHON=/usr/bin/python3
 ENV npm_config_python=/usr/bin/python3
 ENV NODE_ENV=production
 ENV npm_config_build_from_source=false
+# Additional node-gyp configuration
+ENV npm_config_node_gyp=/usr/local/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js
 
 # Create app directory
 WORKDIR /app
@@ -31,10 +34,7 @@ WORKDIR /app
 # Copy package files first for better layer caching
 COPY package*.json yarn.lock .npmrc ./
 
-# Configure npm to use Python 3
-RUN npm config set python /usr/bin/python3
-
-# Install dependencies
+# Install dependencies (Python path is set via environment variables above)
 RUN yarn install --frozen-lockfile --production=false
 
 # Copy source code
