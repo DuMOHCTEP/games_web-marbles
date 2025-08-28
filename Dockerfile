@@ -28,6 +28,10 @@ ENV npm_config_build_from_source=false
 # Additional node-gyp configuration
 ENV npm_config_node_gyp=/usr/local/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js
 
+# Better-sqlite3 prebuilt configuration
+ENV better_sqlite3_binary_host_mirror=https://registry.npmmirror.com/-/binary/better-sqlite3/
+ENV better_sqlite3_binary_site=https://registry.npmmirror.com/-/binary/better-sqlite3/
+
 # Create app directory
 WORKDIR /app
 

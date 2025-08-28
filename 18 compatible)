@@ -1,0 +1,5 @@
+[33me7de5dc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mproduction[m[33m, [m[1;31morigin/production[m[33m)[m Add comprehensive documentation for deployment script
+[33ma929c4b[m Remove test file after successful script testing
+[33md708f42[m[33m ([m[1;32mbackup-20250829_013040[m[33m)[m Test deployment of updated production script for web-marbles
+[33me326965[m Update git_push_production.sh for Web-Marbles Railway deployment
+[33m8e01753[m Update documentation for Docker deployment
