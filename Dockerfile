@@ -39,7 +39,7 @@ WORKDIR /app
 COPY package*.json yarn.lock .npmrc ./
 
 # Install dependencies (Python path is set via environment variables above)
-RUN yarn install --frozen-lockfile --production=false
+RUN yarn install --production=false
 
 # Copy source code
 COPY . .
